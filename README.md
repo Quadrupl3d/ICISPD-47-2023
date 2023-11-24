@@ -117,6 +117,12 @@ Given that there could be a network glitch, it is easy to identify "admin" as a 
     [+] user azureuser took 0.001
 
 ### Listing 8 - Using POSIX regular expressions to implement the password policy
+We now take a giant wordlist and extract only passwords that match this policy. Unix grep is not the fastest tool but allows us to do the job quickly   
+using POSIX regular expressions. The command below will work against rockyou-50.txt, a subset of the well-known rockyou password leak present in SecLists.  
+This command finds lines have at least one uppercase character ('[[:upper:]]'), and then only lines that also have a lowercase one ('[[:lower:]]') and  
+with a length of 8 and 12 chars ('^.{8,12}$') using extended regular expressions (-E).
+We see that starting from the standard rockyou.txt, which contains more than 14 million lines, we have narrowed it down to roughly 400 thousand  
+
     root@kali[/nfsu-svnit]# grep '[[:upper:]]' rockyou.txt | grep '[[:lower:]]' | grep -E '^.{8,12}$'
     416712
 
@@ -304,3 +310,6 @@ At URL _http://vuln-web.com/auth/createchallenge/anything/v3/recaptchav3.js_
 		};
 		xhr.send(params);
 		}</script>
+
+
+
