@@ -130,7 +130,8 @@ We see that starting from the standard rockyou.txt, which contains more than 14 
 
 ### Listing 9 - Logical equivalent of CVE-2016-0783
 An attacker that knows a valid username can get the server time by reading the Date header (which is almost always present in the HTTP response).  
-The attacker can then brute force the $time value in a matter of seconds and get a valid reset token. In this example, we can see that a common request leaks date and time.
+The attacker can then brute force the $time value in a matter of seconds and get a valid reset token. In this example, we can see that a common request leaks date and time.  
+
     <?php
       function generate_reset_token($username) {
       $time = intval(microtime(true) * 1000);
